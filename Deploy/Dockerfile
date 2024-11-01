@@ -9,7 +9,7 @@ COPY app.py /app
 COPY templates /app/templates
 
 # Instala as dependências
-RUN pip install --no-cache-dir Flask
+RUN pip install --no-cache-dir Flask requests
 
 # Define a variável de ambiente para o Flask
 ENV FLASK_APP=app.py
