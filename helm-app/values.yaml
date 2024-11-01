@@ -1,6 +1,6 @@
 image:
   repository: "leojaardim/appzinha"
-  tag: "v.1.0.1"
+  tag: "v1.0.1"
 
 service:
   type: ClusterIP
