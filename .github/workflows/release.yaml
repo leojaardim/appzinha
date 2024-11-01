@@ -24,24 +24,24 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
-          context: Deploy  # Contexto do diretório onde está o Dockerfile
-          file: Deploy/Dockerfile  # Caminho para o Dockerfile
+          context: Deploy
+          file: Deploy/Dockerfile
           push: true
           tags: leojaardim/appzinha:${{ github.event.release.tag_name }}
 
       - name: Update Helm chart values
         run: |
-          echo "Updating Helm chart with new image tag"
+          echo "Updating Helm chart with new image tag and environment variable"
           sed -i "s|repository:.*|repository: \"leojaardim/appzinha\"|g" helm-app/values.yaml
           sed -i "s|tag:.*|tag: \"${{ github.event.release.tag_name }}\"|g" helm-app/values.yaml
+          sed -i "s|APP_VERSION:.*|APP_VERSION: \"${{ github.event.release.tag_name }}\"|g" helm-app/values.yaml
 
       - name: Commit and push updated Helm chart
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}  # Use seu PAT aqui se for privado
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add helm-app/values.yaml
           git commit -m "Update Helm chart to version ${{ github.event.release.tag_name }}"
-          git push https://x-access-token:${GITHUB_TOKEN}@github.com/<USERNAME>/<REPO>.git HEAD:main  # Substitua <USERNAME> e <REPO>
-
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:main
