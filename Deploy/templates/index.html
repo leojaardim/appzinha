@@ -1,15 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informações de Acesso</title>
+    <title>Hora Atual e IP</title>
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = { timeZoneName: 'short', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            document.getElementById('time').textContent = now.toLocaleTimeString(undefined, options);
+            setTimeout(updateTime, 1000); // Atualiza a cada segundo
+        }
+        
+        function fetchIP() {
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('ip').textContent = data.ip;
+                })
+                .catch(error => console.error('Error fetching IP:', error));
+        }
+
+        window.onload = function() {
+            updateTime();
+            fetchIP();
+        };
+    </script>
 </head>
 <body>
-    <h1>Informações de Acesso</h1>
-    <p>Hora atual: {{ current_time }}</p>
-    <p>Seu IP: {{ user_ip }}</p>
-    <p>Seu País: {{ country }}</p>
-    <p>Navegador: {{ user_agent }}</p>
+    <h1>Hora Atual: <span id="time"></span></h1>
+    <h2>Seu IP: <span id="ip"></span></h2>
 </body>
 </html>
