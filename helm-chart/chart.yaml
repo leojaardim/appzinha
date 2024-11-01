@@ -1,0 +1,5 @@
+apiVersion: v2
+name: sample-app
+description: Uma aplicação Flask simples que mostra a hora atual e o IP do usuário
+version: 0.1.0
+appVersion: "1.0"

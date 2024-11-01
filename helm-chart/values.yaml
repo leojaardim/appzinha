@@ -1,0 +1,18 @@
+image:
+  repository: "leojaardim/appzinha"
+  tag: "v.1.0.0"
+
+service:
+  type: NodeIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: "nginx"  # Coloque o nome da sua IngressClass, se necessário
+  annotations: {}
+  hosts:
+    - host: "appzinha.leonardo.jardim"  # Substitua pelo domínio desejado
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []  # Configurações TLS, se necessário
