@@ -35,10 +35,13 @@ jobs:
           sed -i "s|repository:.*|repository: \"leojaardim/appzinha\"|g" helm-app/values.yaml
           sed -i "s|tag:.*|tag: \"${{ github.event.release.tag_name }}\"|g" helm-app/values.yaml
 
-      - name: Commit and push updated Helm chart
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add helm-app/values.yaml
-          git commit -m "Update Helm chart to version ${{ github.event.release.tag_name }}"
-          git push origin HEAD:main  # Altere 'main' para o branch correto, se necessário
+- name: Commit and push updated Helm chart
+  env:
+    GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+  run: |
+    git config --local user.email "action@github.com"
+    git config --local user.name "GitHub Action"
+    git add helm-app/values.yaml
+    git commit -m "Update Helm chart to version ${{ github.event.release.tag_name }}"
+    git push https://x-access-token:${GITHUB_TOKEN}@github.com/<USERNAME>/<REPO>.git HEAD:main  # Substitua <USERNAME> e <REPO>
+
