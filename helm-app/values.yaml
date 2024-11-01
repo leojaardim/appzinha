@@ -1,6 +1,6 @@
 image:
   repository: "leojaardim/appzinha"
-  tag: "latest"
+  tag: ""
 
 service:
   type: ClusterIP
